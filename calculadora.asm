@@ -1,3 +1,5 @@
+# feito na IDE MARS versão 4.5
+
 .data
 	s_mais: .asciiz " + "
 	s_menos: .asciiz " - "
@@ -10,14 +12,14 @@
 	pedir_valor_x: .asciiz "Informe o primeiro valor: "
 	pedir_valor_y: .asciiz "Informe o segundo valor: "
 .text
-	j menu
+	j menu # salta pra label do menu
 menu:
 
-	la $a0, pular_linha
-	li $v0, 4
-	syscall
+	la $a0, pular_linha # imprime a string que pula uma linha
+	li $v0, 4 # carrega o valor 4 pra usar a syscall de printar string
+	syscall # chama a syscall
 
-	la $a0, menu_text # imprime a label do menu 
+	la $a0, menu_text # imprime a string do menu 
 	li $v0, 4 # carrega o valor 4 pra usar a syscall de printar string
 	syscall # chama a syscall
 	
@@ -37,10 +39,10 @@ menu:
 	li $t1, 4 # carrega o valor 1 no registrador t1
 	beq $t1, $t0, multiplicar # caso o valor que foi lido no input seja 4, vai saltar pra multiplicar
 	
-	li $t1, 0
-	beq $t1, $t0, encerrar 
+	li $t1, 0 # carrega o valor 0 no registrador t1
+	beq $t1, $t0, encerrar  # caso o valor que foi lido no input seja 0, vai saltar pra encerrar
 leitor:
-	la $a0, pedir_valor_x # imprime a label que pede o primeiro valor
+	la $a0, pedir_valor_x # imprime a string que pede o primeiro valor
 	li $v0, 4 # carrega o valor 4 pra usar a syscall de printar string
 	syscall # chama a syscall
 	
@@ -50,7 +52,7 @@ leitor:
 	syscall # chama a syscall
 	mov.d $f2, $f0 # move o double que foi lido (está em f0 e f1) para f2
 	
-	la $a1, pedir_valor_y # imprime a label que pede o segundo valor
+	la $a1, pedir_valor_y # imprime a string que pede o segundo valor
 	li $v0, 4 # carrega o valor 4 pra usar a syscall de printar string
 	syscall # chama a syscall
 	
@@ -58,38 +60,39 @@ leitor:
 	syscall # chama a syscall
 	mov.d $f4, $f0 # move o double que foi lido (está em f0) para f4
 	
-	jr $ra # salta pra branch que está com o endereço salvo no registrador ra (nesse caso a branch soma)
+	jr $ra # salta pra label que está com o endereço salvo no registrador ra
 soma: 
-	jal leitor # salta pra branch leitor e guarda o endereço da branch soma no registrador ra
+	jal leitor # salta pra label leitor e guarda o endereço da label soma no registrador ra
 	add.d $f0, $f2, $f4 # guarda no registrador f0 o valor da soma dos registradores f2 e f4
-	mov.d $f12, $f0 # move o resultado que está em f0 para o f12 (o registrador que a syscall printa para doubles)
-	li $v0, 3 # carrega o valor 4 para usar a syscall de printar doubles
+	mov.d $f12, $f0 # move o resultado que está em f0 para o f12 (o registrador que a syscall printa o valor para doubles)
+	li $v0, 3 # carrega o valor 3 para usar a syscall de printar doubles
 	syscall # chama a syscall
 	
-	j menu
+	j menu # salta pra label do menu
 subtrair:
-	jal leitor
-	sub.d $f0, $f2, $f4
-	mov.d $f12, $f0
-	li $v0, 3
-	syscall
+	jal leitor # salta pra label leitor e guarda o endereço da label subtrair no registrador ra
+	sub.d $f0, $f2, $f4 # guarda no registrador f0 o valor da subtração dos registradores f2 e f4
+	mov.d $f12, $f0 # move o resultado que está em f0 para o f12 (o registrador que a syscall printa o valor para doubles)
+	li $v0, 3 # carrega o valor 3 para usar a syscall de printar doubles
+	syscall # chama a syscall
 	
-	j menu
+	j menu # salta pra label do menu
 dividir:
-	jal leitor
-	div.d $f0, $f2, $f4
-	mov.d $f12, $f0
-	li $v0, 3
-	syscall
+	jal leitor # salta pra label leitor e guarda o endereço da label dividir no registrador ra
+	div.d $f0, $f2, $f4 # guarda no registrador f0 o valor da divisão dos registradores f2 e f4
+	mov.d $f12, $f0 # move o resultado que está em f0 para o f12 (o registrador que a syscall printa o valor para doubles)
+	li $v0, 3 # carrega o valor 3 para usar a syscall de printar doubles
+	syscall # chama a syscall
 	
-	j menu
+	j menu # salta pra label do menu
 multiplicar:
-	jal leitor
-	mul.d $f0, $f2, $f4
-	mov.d $f12, $f0
-	li $v0, 3
-	syscall
+	jal leitor # salta pra label leitor e guarda o endereço da label multiplicar no registrador ra
+	mul.d $f0, $f2, $f4 # guarda no registrador f0 o valor da multiplicação dos registradores f2 e f4
+	mov.d $f12, $f0 # move o resultado que está em f0 para o f12 (o registrador que a syscall printa o valor para doubles)
+	li $v0, 3 # carrega o valor 3 para usar a syscall de printar doubles
+	syscall # chama a syscall
 	
-	j menu
+	j menu # salta pra label do menu
 encerrar:
-	li $v0, 10
+	li $v0, 10 # carrega o valor 10 no registrador v0 que chama a syscall que encerra a execução
+	syscall
